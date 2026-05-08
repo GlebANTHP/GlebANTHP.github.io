@@ -1,124 +1,121 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>ДОБРО ПОЖАЛОВАТЬ В ЗОНУ СВОБОДЫ</title>
+    <title>!!! ☢☠☢ !!!</title>
     <style>
         body {
-            background-color: #FFD700; /* Тот самый желтый цвет Gadsden flag */
-            color: #000000;
-            font-family: "Comic Sans MS", cursive, sans-serif;
+            background-color: #FFD700;
+            background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            cursor: crosshair;
             margin: 0;
-            padding: 20px;
-            background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png'); /* Немного текстуры */
+            overflow-x: hidden;
         }
 
-        header {
-            border: 5px double #000;
-            background: #000;
-            color: #FFD700;
-            padding: 10px;
-            text-align: center;
-            margin-bottom: 20px;
+        /* Полная анархия в расположении */
+        .glitch-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
         }
 
-        .flag-container {
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .flag-container img {
-            width: 300px;
-            border: 3px solid #000;
-            box-shadow: 10px 10px 0px #000;
-        }
-
-        .content {
-            border: 2px solid #000;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            max-width: 800px;
-            margin: 0 auto;
+        .main-banner {
+            border: 10px double #000;
+            box-shadow: 20px 20px 0px rgba(0,0,0,0.5);
+            max-width: 90%;
+            margin: 20px;
         }
 
         marquee {
-            font-weight: bold;
-            font-size: 24px;
+            height: 50px;
             background: #000;
-            color: #FFD700;
-            padding: 5px;
+            border-top: 2px solid #fff;
+            border-bottom: 2px solid #fff;
+        }
+
+        .gif-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .chaos-img {
+            width: 100px;
+            filter: drop-shadow(5px 5px 0px #000);
         }
 
         .blink {
-            animation: blinker 1s linear infinite;
-            color: red;
-            font-weight: bold;
+            animation: blinker 0.5s linear infinite;
         }
 
         @keyframes blinker {
             50% { opacity: 0; }
         }
 
-        .anarchy-list {
-            list-style-type: "☢ ";
-        }
-
-        footer {
-            margin-top: 50px;
-            text-align: center;
-            font-size: 12px;
-        }
-
-        /* Кнопки в стиле 2000-х */
-        .web-button {
+        /* Старые кнопки без текста */
+        .btn-icon {
             display: inline-block;
-            padding: 5px;
-            border: 2px outset #ccc;
-            background: #ddd;
+            width: 50px;
+            height: 50px;
+            background: #ccc;
+            border: 4px outset #fff;
+            text-align: center;
+            line-height: 50px;
+            font-size: 30px;
             text-decoration: none;
-            color: #000;
-            margin: 5px;
+            margin: 10px;
+        }
+
+        .btn-icon:active {
+            border-style: inset;
+        }
+
+        #fire-bar {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 100px;
+            background-image: url('https://web.archive.org/web/20090831190141/http://geocities.com/TimesSquare/Labyrinth/7325/fire.gif');
+            background-repeat: repeat-x;
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>!!! LIBERTY OR DEATH !!!</h1>
-</header>
+<marquee scrollamount="20">
+    <img src="https://web.archive.org/web/20091027005003/http://geocities.com/Hollywood/6431/skull.gif" height="40">
+    <span style="color: #FFD700; font-size: 30px;"> 🐍 ☢ 🐍 ☢ 🐍 ☢ 🐍 ☢ 🐍 ☢ 🐍 ☢ </span>
+    <img src="https://web.archive.org/web/20091027005003/http://geocities.com/Hollywood/6431/skull.gif" height="40">
+</marquee>
 
-<marquee scrollamount="15">DON'T TREAD ON ME --- NO STEP ON SNEK --- АНАРХИЯ И СВОБОДА --- 2026 </marquee>
-
-<div class="flag-container">
-    <!-- Ссылка на официальное изображение флага -->
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Gadsden_flag.svg/1200px-Gadsden_flag.svg.png" alt="Gadsden Flag">
-    <p><i>"Don't Tread on Me"</i></p>
-</div>
-
-<div class="content">
-    <h2 class="blink">ВНИМАНИЕ: ЗОНА СВОБОДНОГО КОДА</h2>
-    <p>Этот сайт создан в духе старого доброго интернета, когда никто не говорил тебе, как верстать и что постить. Здесь царит полная анархия:</p>
+<div class="glitch-container">
     
-    <ul class="anarchy-list">
-        <li>Никаких куки-файлов.</li>
-        <li>Никакой слежки (кроме счетчика посещений внизу).</li>
-        <li>Никаких фреймворков — только чистый хаос.</li>
-        <li>Право на приватность — это база.</li>
-    </ul>
+    http://googleusercontent.com/image_generation_content/0
 
-    <hr>
-    <h3>Навигация по пустоте:</h3>
-    <a href="#" class="web-button">Главная</a>
-    <a href="#" class="web-button">Манифест</a>
-    <a href="#" class="web-button">Гостевая книга</a>
-    <a href="#" class="web-button">Секретный чат</a>
+    <div class="blink">
+        <img src="https://web.archive.org/web/20091027012356/http://geocities.com/SiliconValley/Way/6257/undercon.gif" alt="Under Construction">
+    </div>
+
+    <div class="gif-grid">
+        <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJndmI3bmZqZnd4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/3o7TKMGpxx6B3K3Z28/giphy.gif" class="chaos-img"> <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJndmI3bmZqZnd4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/Lopx9eUi34rbq/giphy.gif" class="chaos-img"> <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJndmI3bmZqZnd4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHhJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/S9X6m9nJ3t6A8/giphy.gif" class="chaos-img"> <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJndmI3bmZqZnd4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHhJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/5wWf7H0qo9N3E1uF8a/giphy.gif" class="chaos-img"> </div>
+
+    <div style="margin-top: 30px;">
+        <a href="#" class="btn-icon">🏠</a>
+        <a href="#" class="btn-icon">💣</a>
+        <a href="#" class="btn-icon">⚙️</a>
+        <a href="#" class="btn-icon">🏴‍☠️</a>
+    </div>
 </div>
 
-<footer>
-    <p>Сайт оптимизирован для Internet Explorer 6.0 и разрешения 800x600</p>
-    <p>Визитов: <img src="https://counter.yadro.ru/logo?44.1" title="Это просто картинка-заглушка" alt="counter"></p>
-    <p>&copy; 2026 Анархо-Веб-Мастер</p>
-</footer>
+<marquee direction="right" scrollamount="15">
+    <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJndmI3bmZqZnd4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/10vX6QzRzYnC0/giphy.gif" height="60">
+</marquee>
+
+<div id="fire-bar"></div>
 
 </body>
 </html>
