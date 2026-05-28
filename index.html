@@ -1,116 +1,150 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Вход</title>
-<style>
-body{
-font-family:Arial,sans-serif;
-background:#111;
-color:white;
-display:flex;
-justify-content:center;
-padding:30px;
-}
-.container{
-width:700px;
-background:#1e1e1e;
-padding:25px;
-border-radius:15px;
-}
-input,button{
-width:100%;
-padding:12px;
-margin-top:10px;
-border-radius:8px;
-border:none;
-}
-button{
-background:#3b82f6;
-color:white;
-font-size:16px;
-cursor:pointer;
-}
-.small{
-font-size:12px;
-opacity:.7;
-margin-top:15px;
-}
-pre{
-background:black;
-padding:10px;
-overflow:auto;
-}
-</style>
+    <meta charset="UTF-8">
+    <title>Моя Рулетка Ссылок</title>
+    <style>
+        /* Общие стили страницы */
+        body {
+            background-color: #222;
+            color: #fff;
+            font-family: 'Courier New', Courier, monospace; /* Немного олдскульный шрифт */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            text-shadow: 2px 2px #ff0055;
+        }
+
+        /* Контейнер для рулетки */
+        .roulette-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin-bottom: 40px;
+        }
+
+        /* Визуальный круг рулетки */
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 8px solid #fff;
+            background: conic-gradient(
+                #ff0055 0deg 90deg, 
+                #00ffaa 90deg 180deg, 
+                #00aaff 180deg 270deg, 
+                #ffaa00 270deg 360deg
+            );
+            box-shadow: 0 0 20px rgba(255,255,255,0.2);
+            transition: transform 3s cubic-bezier(0.1, 0.8, 0.1, 1); /* Плавное замедление */
+        }
+
+        /* Стрелка-указатель сверху */
+        .pointer {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 30px solid #fff;
+            z-index: 10;
+        }
+
+        /* Кнопка запуска */
+        .spin-btn {
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            font-family: inherit;
+            color: #fff;
+            background-color: #ff0055;
+            border: 3px solid #fff;
+            cursor: pointer;
+            box-shadow: 4px 4px 0px #000;
+            transition: transform 0.1s;
+        }
+
+        .spin-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #000;
+        }
+
+        /* Стиль для всплывающей ссылки */
+        .result-link {
+            margin-top: 20px;
+            display: none;
+            font-size: 20px;
+        }
+
+        .result-link a {
+            color: #00ffaa;
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-<h2>Вход</h2>
 
-<input id="name" placeholder="Имя">
-<input id="email" placeholder="Email">
-<input id="phone" placeholder="Телефон">
-<input id="city" placeholder="Город">
-<input id="birth" type="date">
+    <h1>Испытай удачу!</h1>
 
-<button onclick="collectData()">Войти</button>
+    <div class="roulette-container">
+        <div class="pointer"></div>
+        <div class="wheel" id="wheel"></div>
+    </div>
 
-<p class="small">
-Эта страница собирает информацию только открыто и с согласия пользователя.
-</p>
+    <button class="spin-btn" id="spinBtn">КРУТИТЬ!</button>
 
-<h3>Собранные данные:</h3>
-<pre id="output"></pre>
-</div>
+    <div class="result-link" id="resultContainer">
+        Выпало: <a href="#" id="resultLink" target="_blank">Открыть ссылку</a>
+    </div>
 
-<script>
-async function collectData(){
-let data={
-name:document.getElementById('name').value,
-email:document.getElementById('email').value,
-phone:document.getElementById('phone').value,
-city:document.getElementById('city').value,
-birth:document.getElementById('birth').value,
+    <script>
+        // Твой список ссылок (заменяй на свои)
+        const links = [
+            "https://www.youtube.com/watch?v=dQw4w9WgXcQ", // Пример 1
+            "https://github.com",                         // Пример 2
+            "https://habr.com",                           // Пример 3
+            "https://codeforces.com"                      // Пример 4
+        ];
 
-browser:navigator.userAgent,
-language:navigator.language,
-platform:navigator.platform,
-cookies:navigator.cookieEnabled,
-online:navigator.onLine,
-cores:navigator.hardwareConcurrency,
-ram:navigator.deviceMemory || 'не поддерживается',
-timezone:Intl.DateTimeFormat().resolvedOptions().timeZone,
-screen:screen.width + 'x' + screen.height,
-colorDepth:screen.colorDepth,
-windowSize:window.innerWidth+'x'+window.innerHeight,
-referrer:document.referrer || 'нет',
-url:window.location.href,
-date:new Date().toString()
-};
+        const wheel = document.getElementById('wheel');
+        const spinBtn = document.getElementById('spinBtn');
+        const resultContainer = document.getElementById('resultContainer');
+        const resultLink = document.getElementById('resultLink');
 
-if(navigator.geolocation){
-navigator.geolocation.getCurrentPosition(pos=>{
-data.latitude=pos.coords.latitude;
-data.longitude=pos.coords.longitude;
-show(data);
-},()=>show(data));
-}else{
-show(data)
-}
-}
+        let currentRotation = 0;
 
-function show(data){
-document.getElementById('output').textContent=
-JSON.stringify(data,null,2);
+        spinBtn.addEventListener('click', () => {
+            // Скрываем прошлую ссылку при новом прокруте
+            resultContainer.style.display = 'none';
+            
+            // Генерируем случайный угол (минимум 3 полных оборота + случайный остаток)
+            const randomDegree = Math.floor(Math.random() * 360);
+            currentRotation += 1080 + randomDegree; 
+            
+            // Вращаем колесо с помощью CSS
+            wheel.style.transform = `rotate(${currentRotation}deg)`;
 
-// для отправки на сервер / GitHub API / Firebase:
-// fetch("YOUR_API",{
-// method:"POST",
-// headers:{"Content-Type":"application/json"},
-// body:JSON.stringify(data)
-// })
-}
-</script>
+            // Выбираем случайную ссылку из массива
+            const randomLink = links[Math.floor(Math.random() * links.length)];
+
+            // Показываем ссылку ПОСЛЕ того, как анимация кручения закончится (3 секунды)
+            setTimeout(() => {
+                resultLink.href = randomLink;
+                resultLink.textContent = randomLink; // Или можно написать "Кликни сюда!"
+                resultContainer.style.style.display = 'block';
+            }, 3000); 
+        });
+    </script>
+
 </body>
 </html>
